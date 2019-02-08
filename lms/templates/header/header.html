@@ -1,0 +1,77 @@
+## mako
+
+<%page expression_filter="h" args="online_help_token, use_cookie_banner=False"/>
+
+<%namespace name='static' file='../static_content.html'/>
+<%namespace file='../main.html' import="login_query"/>
+<%!
+from django.urls import reverse
+from django.utils.translation import ugettext as _
+
+# App that handles subdomain specific branding
+from branding import api as branding_api
+
+%>
+
+## Provide a hook for themes to inject branding on top.
+<%block name="navigation_top" />
+
+## Add UI Toolkit components if using the Pattern Library
+% if uses_pattern_library:
+    <%block name="js_extra">
+    <%static:require_module module_name="js/header_factory" class_name="HeaderFactory">
+    HeaderFactory();
+    </%static:require_module>
+    </%block>
+% endif
+
+<header id="global-navigation" class="typical-platform-header-global ${"slim" if course else ""}" >
+    <nav class="wrapper-header" aria-label="Навигация">
+        <div class="logo">
+            <a href="${marketing_link('ROOT')}">
+              <%block name="navigation_logo">
+                <img width="110" src="${branding_api.get_logo_url(is_secure)}" alt="${_("{platform_name} Home Page").format(platform_name=static.get_platform_name())}"/>
+              </%block>
+            </a>
+        </div>
+        <div class="search">
+            <div class="header__search-wrapper">
+                <button data-href="${settings.PLP_URL}/course/" class="header__catalog-button button button_color_blue">
+                    <i class="icon fa fa-bars" aria-hidden="true"></i>Каталог
+                </button>
+              <div class="header__search-form">
+                <form role="form" action="${settings.PLP_URL}/course/" name="search" id="plp-search-form" autocomplete="off" class="header__search search-form">
+                  <input type="text" class="header__search-input search-form__input" name="text" id="search-form-text">
+                  <button class="header__search-submit search-form__btn" id="plp-search-btn">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+        </div>
+        <div class="user-block">
+            <div class="header-dropdown">
+                % if user.is_authenticated():
+                    <div class="user-lk" aria-expanded="false" aria-haspopup="true">
+                        <a class="user-lk-link" href="${settings.PLP_URL}/my/">
+                            Личный кабинет
+                        </a>
+                        <a href="javascript: void(0);" class="user-lk-dropdown user-dropdown">
+                            <i class="icon fa fa-angle-down user-dropdown" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <ul class="user-dropdown-menu" aria-label="More Options" role="menu">
+                        <li class="item"><a href="${settings.PLP_URL}/my/" class="user-dropdown-menuitem" tabindex="-1" role="menuitem" title="Мои курсы">Мои курсы</a></li>
+                        <li class="item"><a href="${settings.SSO_TP_URL}/profile/" class="user-dropdown-menuitem" tabindex="-1" role="menuitem" title="Настройки">Настройки</a></li>
+                        <li class="item"><a href="${reverse('social-logout')}" tabindex="-1" role="menuitem" title="${_("Sign Out")}" class="user-dropdown-menuitem">${_("Sign Out")}</a></li>
+                    </ul>
+                % else:
+                  % if not settings.FEATURES['DISABLE_LOGIN_BUTTON']:
+                    <a class="user-lk" href="${settings.SSO_TP_URL}/register">Регистрация</a>
+                  % endif
+                % endif
+            </div>
+        </div>
+        <div class="clear"></div>
+    </nav>
+</header>

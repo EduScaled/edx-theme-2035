@@ -1,0 +1,38 @@
+## mako
+<%!
+from django.core.urlresolvers import reverse
+from django.conf import settings
+from datetime import datetime
+from pytz import UTC
+
+year = datetime.now().year
+main_site_host = getattr(settings, 'UNTI_BASE_DOMAIN', '')
+%>
+<%namespace name='static' file='/static_content.html'/>
+
+<footer class="typical-platform-footer-global">
+  <div class="wrapper-footer-typical" aria-label="Ссылки">
+    <div class="row">
+      <div class="block-link">
+        © 2018-${year} <a href="${main_site_host}" class="color-default">АНО «Университет 2035»</a>
+      </div>
+      <div class="block-link">
+        <a href="http://openedx.org" target="_blank" class="openedx-logo">
+          <img src="${settings.SSO_TP_URL}/static/img/edx-openedx-logo-tag.png" width="150" height="50" alt="Powered by Open edX" />
+        </a>
+      </div>
+    </div>
+    <div class="row row-links">
+      <div class="block-link">
+        <a href="${main_site_host}/privacy-policy" class="color-default" target="_blank">Политика безопасности</a>
+      </div>
+      <div class="block-link">
+        <a href="${main_site_host}/agreement" class="color-default" target="_blank">Пользовательское соглашение</a>
+      </div>
+      <div class="block-link">
+        <a href="${main_site_host}/contact" class="color-default" target="_blank">Контактная информация</a>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
+</footer>

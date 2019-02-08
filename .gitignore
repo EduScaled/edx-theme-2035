@@ -1,0 +1,10 @@
+.settings
+.buildpath
+.project
+.sass-cache
+.idea
+
+*.DS_Store
+*.pyc
+
+lms/static/css/

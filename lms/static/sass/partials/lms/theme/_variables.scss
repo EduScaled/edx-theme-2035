@@ -1,0 +1,12 @@
+// Override theming for edx.org bootstrap
+
+// Define the primary red color
+$red: #e52127;
+
+// Make red the primary color
+$primary: $red;
+
+// Theme fonts
+$font-family-sans-serif: "IBM Plex Sans","Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+
+@import 'edx-bootstrap/sass/edx/theme';
