@@ -1,0 +1,10 @@
+{% if INCLUDE_ADDITIONAL_JS_CODE %}
+{{ INCLUDE_ADDITIONAL_JS_CODE|safe }}
+{% endif %}
+{% if USER_GTM_ID %}
+	<script type="text/javascript">
+		window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({'userhash':'{{ USER_GTM_ID }}'});
+	</script>
+{% endif %}
+
